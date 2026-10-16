@@ -12,6 +12,12 @@ def collect_user_input():
         user_input = input("Enter a string with at least 1 '?': ")
     return user_input
 
+def client_query_server(string):
+    """
+    takes user input string and sends command to server
+    returns server response
+    """
+
 def handle_server_response(response):
     """
     Takes in a server response and parses the data.
@@ -36,8 +42,7 @@ if __name__ == '__main__':
     # send client user input, wait for response, then parse server response
     # still using echo-client.py as reference
     user_input = collect_user_input()
-    clientSocket.send(user_input.encode())
-    response = clientSocket.recv(1024)
+    response = client_query_server(user_input)
     refined_info = handle_server_response(response)
 
     # print out information displayed by server
