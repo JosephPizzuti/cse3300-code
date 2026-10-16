@@ -12,25 +12,32 @@ def collect_user_input():
         user_input = input("Enter a string with at least 1 '?': ")
     return user_input
 
-def client_query_server(string):
+def client_query_server(string, socket):
     """
-    takes user input string and sends command to server
+    takes user input string and sends command to server given a  socket
     returns server response
     """
+    socket.send(f"QUERY {string}")
+    while True:
+        data = socket.recv(1024)
+        if not data:
+            break
+
+    return data
 
 def handle_server_response(response):
     """
     Takes in a server response and parses the data.
     returns number of matching words and list of matching words
     """
-    ...
+    response_code = response[0]
+    if (response_code != 200):
+        print(f"Error: Code {response_code}. Please try again")
+    num_words = response[1]
+    list_words = response[2]
 
-def display_info(info):
-    """
-    prints out information from server
-    returns nothing
-    """
-    ...
+    print(f"Number of words: {num_words}")
+    print(f"Word List: {list_words}")
 
 if __name__ == '__main__':
     # TCP Client template, borrowed from hw3 echo-client.py
@@ -42,8 +49,9 @@ if __name__ == '__main__':
     # send client user input, wait for response, then parse server response
     # still using echo-client.py as reference
     user_input = collect_user_input()
-    response = client_query_server(user_input)
-    refined_info = handle_server_response(response)
+    response = client_query_server(user_input, clientSocket)
+    
+    # take in server data and print response out
+    handle_server_response(response)
 
-    # print out information displayed by server
-    display_info(refined_info)
+    
