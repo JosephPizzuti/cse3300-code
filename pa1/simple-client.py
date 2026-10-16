@@ -33,9 +33,12 @@ if __name__ == '__main__':
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect((serverName,serverPort))
 
+    # send client user input, wait for response, then parse server response
+    # still using echo-client.py as reference
     user_input = collect_user_input()
     clientSocket.send(user_input.encode())
     response = clientSocket.recv(1024)
     refined_info = handle_server_response(response)
 
+    # print out information displayed by server
     display_info(refined_info)
