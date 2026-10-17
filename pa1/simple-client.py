@@ -66,6 +66,7 @@ def handle_server_response(response):
         return
 
     # extract word count from second line formatted as "COUNT <int>"
+    # get rest of lines
     num_words = int(lines[1].split()[1])
     matching_words = lines[2:]
 
